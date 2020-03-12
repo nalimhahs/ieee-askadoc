@@ -1,0 +1,61 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}
+    All Questions
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+    <div class="grid">
+        <div class="row">
+            <div class="col-8">
+                <h1>
+                    All questions
+                </h1>
+            </div>
+            <div class="col-4" style="display: flex; flex-direction: row-reverse;">
+                <a href="{% url 'ask' %}">
+                    <button class="btn btn-primary">Ask a Question!</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="grid">
+        <div class="row">
+            {% for question, ans in questions %}
+                <div class="card col-12 ml-2 mb-4 p-2">
+                    <div class="card-body">
+                        <a href="{% url 'detail' question.slug %}">
+                            <h5 class="card-title">{{ question.question }}</h5>
+                        </a>
+                        <h6 class="card-subtitle mb-2 text-muted">By {{ question.user.email }} on {{ question.pub_date }}</h6>
+                        <p class="card-text" style="margin-top: 25px;">
+                            {% if ans %}
+                                {% if ans.answer|length > 100 %}
+                                    {{ans.answer|slice:100}}... 
+                                    <a href="{% url 'detail' question.slug %}">
+                                        Read More!
+                                    </a>
+                                {% else %}
+                                    {{ans.answer}}
+                                {% endif %}
+                                <p class="text-muted">
+                                    Answered by: Dr. {{ans.user.first_name}} on {{ans.pub_date}}
+                                    <br>
+                                    {{ans.user.designation}} at {{ans.user.hospital}}
+                                </p>
+                            {% else %}
+                                Not yet answered!
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

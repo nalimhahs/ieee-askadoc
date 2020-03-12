@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    New Question
+{% endblock title %}
+
+{% block content %}
+<h1>Ask New Question</h1>
+<div class="container mt-4">
+    {% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Ask Question</button>
+    </form >
+    {% else %}
+        <p>Please login to ask a question!</p>
+        <p>
+            <a class="" href="{% url 'home' %}">View all questions!</a>
+        </p>
+    {% endif %}
+</div>
+{% endblock content %}

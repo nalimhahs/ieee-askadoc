@@ -1,0 +1,54 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}
+    View Question
+{% endblock title %}
+
+{% block content %}
+{% if user.is_doc %}
+<div class="container mt-4 mb-4">
+    <div class="grid">
+        <div class="row">
+            <div class="col-8">
+                <h1>
+                    Question
+                </h1>
+            </div>
+            <div class="col-4" style="display: flex; flex-direction: row-reverse;">
+                <a href="{% url 'answer' question.slug %}">
+                    <button class="btn btn-success">Answer this Question!</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="container">
+    <div class="grid">
+        <div class="row">
+            <div class="card col-12 ml-2 mb-4 p-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ question.question }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">By {{ question.user.email }} on {{ question.pub_date }}</h6>
+                    <p class="card-text" style="margin-top: 25px;">
+                        {% if answer %}
+                            {{answer.answer}}
+                               <p class="text-muted">
+                                Answered by: Dr. {{answer.user.first_name}} on {{answer.pub_date}}
+                                <br>
+                                {{answer.user.designation}} at {{answer.user.hospital}}
+                            </p>
+                        {% else %}
+                            Not yet answered!
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+
+{% endblock content %}
